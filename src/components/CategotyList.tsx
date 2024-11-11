@@ -9,7 +9,7 @@ type CategotyListPropType = {
 const CategotyList = ({ categories, currentCategory, setCurrentCategory }: CategotyListPropType) => {
     return (
         <>
-            <div className="flex flex-row flex-wrap space-x-4 pl-3">
+            <div className="flex flex-row flex-wrap gap-5 mb-10">
                 {categories.map((category) => (
                     <Badge
                         className={

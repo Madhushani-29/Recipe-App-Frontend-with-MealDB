@@ -19,6 +19,7 @@ import {
 import { useGetCategories } from "@/api/CategoryApi";
 import CategotyList from "@/components/CategotyList";
 import { useEffect, useState } from "react";
+import RecipeCard from "@/components/RecipeCard";
 
 const HomePage = () => {
   const logout = useLogout();
@@ -58,7 +59,7 @@ const HomePage = () => {
           <LogOut onClick={onClickLogout} />
         </div>
 
-        <div className="mt-8  px-5 md:px-10 lg:px-24 ">
+        <div className="mt-8  px-8 md:px-14 lg:px-28 ">
           <TabsContent value="home">
             {categories && currentCategory &&
               <CategotyList
@@ -66,6 +67,10 @@ const HomePage = () => {
                 currentCategory={currentCategory}
                 setCurrentCategory={setCurrentCategory} />
             }
+            <RecipeCard
+              title="Chicken Noodle Soup"
+              category="Soup"
+              image="https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg" />
           </TabsContent>
 
           <TabsContent value="favourites">
