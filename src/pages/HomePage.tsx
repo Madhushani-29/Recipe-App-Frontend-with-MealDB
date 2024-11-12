@@ -16,15 +16,16 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { useGetCategories } from "@/api/CategoryApi";
+import { useGetCategories, useGetRecipesByCategory } from "@/api/CategoryApi";
 import CategotyList from "@/components/CategotyList";
 import { useEffect, useState } from "react";
-import RecipeCard from "@/components/RecipeCard";
+import RecipeList from "@/components/RecipeList";
 
 const HomePage = () => {
   const logout = useLogout();
-  const { isLoading, categories } = useGetCategories();
-  const [currentCategory, setCurrentCategory] = useState<string>();
+  const { isLoading: isCategoriesLoading, categories } = useGetCategories();
+  const [currentCategory, setCurrentCategory] = useState<string | undefined>();
+  const { isLoading: isRecipesLoading, recipes } = useGetRecipesByCategory(currentCategory || "Beef");
 
   // only run when loading
   useEffect(() => {
@@ -34,6 +35,10 @@ const HomePage = () => {
     }
   }, [categories]);
 
+  useEffect(() => {
+    console.log(recipes);
+  }, [currentCategory, recipes]);
+
   const onClickLogout = () => {
     const confirm = window.confirm("Are you sure want to logout?");
     if (confirm) {
@@ -41,10 +46,8 @@ const HomePage = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div>Loading</div>
-    )
+  const openFullRecipe = (id: string) => {
+    console.log(id);
   }
 
   return (
@@ -61,16 +64,29 @@ const HomePage = () => {
 
         <div className="mt-8  px-8 md:px-14 lg:px-28 ">
           <TabsContent value="home">
-            {categories && currentCategory &&
-              <CategotyList
-                categories={categories}
-                currentCategory={currentCategory}
-                setCurrentCategory={setCurrentCategory} />
-            }
-            <RecipeCard
-              title="Chicken Noodle Soup"
-              category="Soup"
-              image="https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg" />
+            {isCategoriesLoading ? (
+              <div>Loading...</div>
+            ) : (
+              categories && currentCategory && (
+                <CategotyList
+                  categories={categories}
+                  currentCategory={currentCategory}
+                  setCurrentCategory={setCurrentCategory}
+                />
+              )
+            )}
+
+            {!isCategoriesLoading && isRecipesLoading ? (
+              <div>Loading...</div>
+            ) : (
+              recipes && currentCategory && (
+                <RecipeList
+                  onClickRecipe={openFullRecipe}
+                  recipes={recipes}
+                  category={currentCategory}
+                />
+              )
+            )}
           </TabsContent>
 
           <TabsContent value="favourites">
