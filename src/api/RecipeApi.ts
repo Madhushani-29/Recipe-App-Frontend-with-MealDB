@@ -1,21 +1,14 @@
 import { checkIsTokenValid } from "@/lib/utils";
+import {
+  GetsRecipeRequest,
+  RecipeDataType,
+  RecipeListType,
+} from "@/types/RecipeTypes";
 import Cookies from "js-cookie";
 import { useQuery } from "react-query";
 import { toast } from "sonner";
 
 const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-export type Recipe = {
-  strMeal: string;
-  strMealThumb: string;
-  idMeal: string;
-};
-
-export type RecipeListType = Recipe[];
-
-export type GetsRecipeRequest = {
-  id: string;
-};
 
 export const useGetRecipesByCategory = (id: string) => {
   const getRecipesByCategoryRequest = async ({
@@ -60,7 +53,7 @@ export const useGetRecipesByCategory = (id: string) => {
 export const useGetSingleRecipe = (id: string) => {
   const getSingleRecipeRequest = async ({
     id,
-  }: GetsRecipeRequest): Promise<RecipeData> => {
+  }: GetsRecipeRequest): Promise<RecipeDataType> => {
     const isAuthenticate = checkIsTokenValid();
 
     if (!isAuthenticate) {
@@ -102,26 +95,4 @@ export const useGetSingleRecipe = (id: string) => {
   }
 
   return { recipe, isLoading };
-};
-
-type RecipeData = {
-  idMeal: string;
-  strMeal: string;
-  strDrinkAlternate: string | null;
-  strCategory: string;
-  strArea: string;
-  strInstructions: string;
-  strMealThumb: string;
-  strTags: string | null;
-  strYoutube: string;
-  ingredients: Ingredient[];
-  strSource: string;
-  strImageSource: string | null;
-  strCreativeCommonsConfirmed: string | null;
-  dateModified: string | null;
-};
-
-type Ingredient = {
-  strIngredient: string;
-  strMeasure: string;
 };

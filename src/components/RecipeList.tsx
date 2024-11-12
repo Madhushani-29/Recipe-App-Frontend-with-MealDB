@@ -1,11 +1,6 @@
-import { Recipe, RecipeListType } from "@/api/RecipeApi";
+import { Recipe } from "@/types/RecipeTypes"
 import RecipeCard from "./RecipeCard"
-
-type RecipeListPropType = {
-    onClickRecipe: (id: string) => void;
-    recipes: RecipeListType;
-    category: string;
-}
+import { RecipeListPropType } from "@/types/ComponentPropTypes"
 
 const RecipeList = ({ recipes, onClickRecipe, category }: RecipeListPropType) => {
     return (

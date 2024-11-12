@@ -6,16 +6,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInputPropType } from "@/types/ComponentPropTypes";
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-type Props = {
-    FieldName: string;
-    label: string;
-    className?: string; // Optional className
-}
 
-const PasswordInputField = ({ FieldName, label, className = "" }: Props) => {
+const PasswordInputField = ({ FieldName, label, className = "" }: PasswordInputPropType) => {
     const { control } = useFormContext();
     const [showPassword, setShowPassword] = useState(false);
 

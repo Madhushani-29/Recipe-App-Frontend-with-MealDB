@@ -9,8 +9,8 @@ const SingleRecipe = () => {
 
     useEffect(() => {
         console.log("recipes are: ", recipe);
-
     }, [recipe]);
+
     return (
         <div className="bg-primary-100 min-h-screen flex flex-col items-stretch">
             <Header />

@@ -1,13 +1,9 @@
-import { ReactNode } from "react";
 import { LogOut } from "lucide-react";
 import icons from "@/constants/icons";
 import { useLogout } from "@/hooks/useLogout";
+import { HeaderPropType } from "@/types/ComponentPropTypes";
 
-type HeaderProps = {
-    children?: ReactNode;
-}
-
-const Header = ({ children }: HeaderProps) => {
+const Header = ({ children }: HeaderPropType) => {
     const logout = useLogout();
 
     const onClickLogout = () => {

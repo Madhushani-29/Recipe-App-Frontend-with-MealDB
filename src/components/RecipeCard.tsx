@@ -1,13 +1,7 @@
+import { RecipeCardPropType } from "@/types/ComponentPropTypes";
 import { Heart } from "lucide-react";
 
-type RecipeCard = {
-    title: string;
-    image: string;
-    category: string;
-    id: string;
-    onClickRecipe: (id: string) => void;
-}
-const RecipeCard = ({ title, image, category, id, onClickRecipe }: RecipeCard) => {
+const RecipeCard = ({ title, image, category, id, onClickRecipe }: RecipeCardPropType) => {
     return (
         <div className="w-44 h-60 rounded-3xl" onClick={() => onClickRecipe(id)}>
             <img src={image} className="rounded-3xl" />

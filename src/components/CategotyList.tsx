@@ -1,10 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-
-type CategotyListPropType = {
-    categories: string[];
-    currentCategory: string;
-    setCurrentCategory: (category: string) => void;
-};
+import { CategotyListPropType } from "@/types/ComponentPropTypes"
 
 const CategotyList = ({ categories, currentCategory, setCurrentCategory }: CategotyListPropType) => {
     return (

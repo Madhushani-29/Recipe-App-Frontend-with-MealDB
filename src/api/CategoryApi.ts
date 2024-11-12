@@ -1,14 +1,13 @@
 import { checkIsTokenValid } from "@/lib/utils";
+import { CategoriesType } from "@/types/CategoryTypes";
 import Cookies from "js-cookie";
 import { useQuery } from "react-query";
 import { toast } from "sonner";
 
 const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-type Categories = string[];
-
 export const useGetCategories = () => {
-  const getCategoriesRequest = async (): Promise<Categories> => {
+  const getCategoriesRequest = async (): Promise<CategoriesType> => {
     const isAuthenticate = checkIsTokenValid();
 
     if (!isAuthenticate) {
