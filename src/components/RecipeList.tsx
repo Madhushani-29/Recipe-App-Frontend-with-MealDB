@@ -1,4 +1,4 @@
-import { Recipe, RecipeListType } from "@/api/CategoryApi";
+import { Recipe, RecipeListType } from "@/api/RecipeApi";
 import RecipeCard from "./RecipeCard"
 
 type RecipeListPropType = {

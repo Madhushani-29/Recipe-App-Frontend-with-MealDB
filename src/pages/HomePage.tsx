@@ -1,6 +1,3 @@
-import icons from "@/constants/icons";
-import { useLogout } from "@/hooks/useLogout";
-import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,13 +13,16 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { useGetCategories, useGetRecipesByCategory } from "@/api/CategoryApi";
+import { useGetCategories } from "@/api/CategoryApi";
 import CategotyList from "@/components/CategotyList";
 import { useEffect, useState } from "react";
 import RecipeList from "@/components/RecipeList";
+import { useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import { useGetRecipesByCategory } from "@/api/RecipeApi";
 
 const HomePage = () => {
-  const logout = useLogout();
+  const navigate = useNavigate();
   const { isLoading: isCategoriesLoading, categories } = useGetCategories();
   const [currentCategory, setCurrentCategory] = useState<string | undefined>();
   const { isLoading: isRecipesLoading, recipes } = useGetRecipesByCategory(currentCategory || "Beef");
@@ -35,32 +35,19 @@ const HomePage = () => {
     }
   }, [categories]);
 
-  useEffect(() => {
-    console.log(recipes);
-  }, [currentCategory, recipes]);
-
-  const onClickLogout = () => {
-    const confirm = window.confirm("Are you sure want to logout?");
-    if (confirm) {
-      logout();
-    }
-  };
-
   const openFullRecipe = (id: string) => {
-    console.log(id);
+    navigate(`./recipe/${id}`);
   }
 
   return (
     <div className="bg-primary-100 h-screen">
       <Tabs defaultValue="home">
-        <div className="bg-white w-screen py-3 flex justify-between items-center h-full flex-wrap gap-4  px-5 md:px-10 lg:px-24 ">
-          <img src={icons.themeIcon} alt="theme icon" className="w-30" />
+        <Header>
           <TabsList className="grid grid-cols-2 bg-transparent">
             <TabsTrigger className="text-base font-semibold" value="home">HOME</TabsTrigger>
             <TabsTrigger className="text-base font-semibold" value="favourites">FAVOURITE</TabsTrigger>
           </TabsList>
-          <LogOut onClick={onClickLogout} />
-        </div>
+        </Header>
 
         <div className="mt-8  px-8 md:px-14 lg:px-28 ">
           <TabsContent value="home">

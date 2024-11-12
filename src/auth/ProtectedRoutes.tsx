@@ -1,9 +1,10 @@
 import { checkIsTokenValid } from '@/lib/utils';
 import { useState, useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 const ProtectedRoutes = () => {
+    const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -19,6 +20,7 @@ const ProtectedRoutes = () => {
 
     if (!isAuthenticated) {
         toast.error("Session timed out or token invalid. Login first!");
+        navigate("/");
         return;
     }
 
