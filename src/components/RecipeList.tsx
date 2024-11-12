@@ -1,11 +1,11 @@
-import { Recipe } from "@/types/RecipeTypes"
+import { RecipeType } from "@/types/RecipeTypes"
 import RecipeCard from "./RecipeCard"
 import { RecipeListPropType } from "@/types/ComponentPropTypes"
 
 const RecipeList = ({ recipes, onClickRecipe, category }: RecipeListPropType) => {
     return (
         <div className="flex flex-row flex-wrap gap-10">
-            {recipes.map((recipe: Recipe) => (
+            {recipes.map((recipe: RecipeType) => (
                 < RecipeCard
                     key={recipe.idMeal}
                     title={recipe.strMeal}
