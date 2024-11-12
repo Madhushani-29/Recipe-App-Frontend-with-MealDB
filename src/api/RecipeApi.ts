@@ -79,7 +79,7 @@ export const useGetSingleRecipe = (id: string) => {
 
     const data = await response.json();
 
-    return data.recipe;
+    return data.recipe || null; 
   };
 
   const {
@@ -94,5 +94,5 @@ export const useGetSingleRecipe = (id: string) => {
     toast.error(error.toString());
   }
 
-  return { recipe, isLoading };
+  return { recipe: recipe || null, isLoading };
 };

@@ -20,14 +20,8 @@ export type RecipeDataType = {
   strMealThumb: string;
   strTags: string | null;
   strYoutube: string;
-  ingredients: IngredientType[];
-  strSource: string;
-  strImageSource: string | null;
-  strCreativeCommonsConfirmed: string | null;
-  dateModified: string | null;
-};
-
-type IngredientType = {
-  strIngredient: string;
-  strMeasure: string;
+  strSource?: string;
+  strImageSource?: null | string;
+  // Add the index signature for ingredient and measure properties
+  [key: string]: string | null | undefined;  // Allows indexing with any string
 };
