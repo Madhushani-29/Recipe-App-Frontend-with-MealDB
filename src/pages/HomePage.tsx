@@ -1,12 +1,3 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Tabs,
   TabsContent,
@@ -77,23 +68,7 @@ const HomePage = () => {
           </TabsContent>
 
           <TabsContent value="favourites">
-            <Card className="bg-transparent " >
-              <CardHeader>
-                <CardTitle>Favourites</CardTitle>
-                <CardDescription>
-                  Make changes to your account here. Click save when you're done.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {categories?.map((category) => (
-                  <p key={category}>{category}</p>
-                ))}
-
-              </CardContent>
-              <CardFooter>
-                <Button>Save changes</Button>
-              </CardFooter>
-            </Card>
+            <p>Fav</p>
           </TabsContent>
         </div>
       </Tabs>
