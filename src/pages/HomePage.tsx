@@ -10,13 +10,14 @@ import { useEffect, useState } from "react";
 import RecipeList from "@/components/RecipeList";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
-import { useGetRecipesByCategory } from "@/api/RecipeApi";
+import { useGetFavouriteRecipes, useGetRecipesByCategory } from "@/api/RecipeApi";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { isLoading: isCategoriesLoading, categories } = useGetCategories();
   const [currentCategory, setCurrentCategory] = useState<string | undefined>();
   const { isLoading: isRecipesLoading, recipes } = useGetRecipesByCategory(currentCategory || "Beef");
+  const { isLoading: isFavouritesLoading, favourites } = useGetFavouriteRecipes();
 
   // only run when loading
   useEffect(() => {
@@ -68,7 +69,11 @@ const HomePage = () => {
           </TabsContent>
 
           <TabsContent value="favourites">
-            <p>Fav</p>
+            {isFavouritesLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <p>Fav</p>
+            )}
           </TabsContent>
         </div>
       </Tabs>

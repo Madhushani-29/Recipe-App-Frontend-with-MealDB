@@ -1,5 +1,6 @@
 import { checkIsTokenValid } from "@/lib/utils";
 import {
+  FavouriteRecipeListType,
   GetsRecipeRequest,
   RecipeDataType,
   RecipeListType,
@@ -79,7 +80,7 @@ export const useGetSingleRecipe = (id: string) => {
 
     const data = await response.json();
 
-    return data.recipe || null; 
+    return data.recipe || null;
   };
 
   const {
@@ -95,4 +96,48 @@ export const useGetSingleRecipe = (id: string) => {
   }
 
   return { recipe: recipe || null, isLoading };
+};
+
+export const useGetFavouriteRecipes = () => {
+  const getFavouriteRecipesRequest =
+    async (): Promise<FavouriteRecipeListType> => {
+      const isAuthenticate = checkIsTokenValid();
+
+      if (!isAuthenticate) {
+        throw new Error("Session timed out or token invalid. Login first!");
+      }
+
+      const token = Cookies.get("accessToken");
+
+      const response = await fetch(
+        `${VITE_API_BASE_URL}/api/recipes/favourites`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorMessage = await response.text(); 
+        throw new Error(errorMessage || "Failed to fetch favourites");
+      }
+
+      const data = await response.json();
+      return data.favourites;
+    };
+
+  const {
+    data: favourites,
+    isLoading,
+    error,
+  } = useQuery("fetchFavouriteRecipes", getFavouriteRecipesRequest);
+
+  if (error) {
+    toast.error(error instanceof Error ? error.message : "An error occurred");
+  }
+
+  return { favourites, isLoading };
 };

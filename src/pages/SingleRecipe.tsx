@@ -2,8 +2,9 @@ import { useGetSingleRecipe } from "@/api/RecipeApi";
 import Header from "@/components/Header";
 import InstructionsList from "@/components/InstructionsList";
 import { RecipeDataType } from "@/types/RecipeTypes";
-import { Cookie, CupSoda, MapPin, ShoppingBasket, Tags } from "lucide-react";
+import { Cookie, CupSoda, MapPin, ShoppingBasket, Tags, Youtube } from "lucide-react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const SingleRecipe = () => {
@@ -59,12 +60,16 @@ const SingleRecipe = () => {
                                         <CupSoda color="#ae782d" />
                                         <p className="text-gray-700 text-lg"><strong>Drink Alternatives: </strong>{recipe.strDrinkAlternate}</p>
                                     </div>}
-                                <div className="flex flex-row flex-wrap gap-3">
+                                <div className="flex flex-row flex-wrap gap-3 mb-3">
                                     <div className="flex flex-row flex-wrap gap-3">
                                         <ShoppingBasket color="#d4f434" />
                                         <p className="text-gray-700 text-lg"><strong>Ingredients: </strong></p>
                                     </div>
                                     <p className="text-gray-700 text-lg pl-9 -mt-3">{ingredientsString}</p>
+                                </div>
+                                <div className="flex flex-row gap-3">
+                                    <Youtube color="#e60000" />
+                                    <Link to={recipe.strYoutube} className="text-base">{recipe.strYoutube}</Link>
                                 </div>
                             </div>
                         </div>

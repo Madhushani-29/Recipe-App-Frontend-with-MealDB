@@ -4,7 +4,15 @@ export type RecipeType = {
   idMeal: string;
 };
 
+export type FavouriteRecipeType = {
+  strMeal: string;
+  strMealThumb: string;
+  idMeal: string;
+};
+
 export type RecipeListType = RecipeType[];
+
+export type FavouriteRecipeListType = FavouriteRecipeType[];
 
 export type GetsRecipeRequest = {
   id: string;
@@ -23,5 +31,5 @@ export type RecipeDataType = {
   strSource?: string;
   strImageSource?: null | string;
   // Add the index signature for ingredient and measure properties
-  [key: string]: string | null | undefined;  // Allows indexing with any string
+  [key: string]: string | null | undefined; // Allows indexing with any string
 };
