@@ -32,7 +32,7 @@ export type RecipeCardPropType = {
 export type RecipeListPropType = {
   onClickRecipe: (id: string) => void;
   recipes: RecipeListType;
-  category: string;
+  category?: string;
 };
 
 export type InstructionsListPropType = {

@@ -2,17 +2,10 @@ export type RecipeType = {
   strMeal: string;
   strMealThumb: string;
   idMeal: string;
-};
-
-export type FavouriteRecipeType = {
-  strMeal: string;
-  strMealThumb: string;
-  idMeal: string;
+  strCategory?: string;
 };
 
 export type RecipeListType = RecipeType[];
-
-export type FavouriteRecipeListType = FavouriteRecipeType[];
 
 export type GetsRecipeRequest = {
   id: string;

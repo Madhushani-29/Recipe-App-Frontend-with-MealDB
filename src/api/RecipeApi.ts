@@ -1,6 +1,5 @@
 import { checkIsTokenValid } from "@/lib/utils";
 import {
-  FavouriteRecipeListType,
   GetsRecipeRequest,
   RecipeDataType,
   RecipeListType,
@@ -100,7 +99,7 @@ export const useGetSingleRecipe = (id: string) => {
 
 export const useGetFavouriteRecipes = () => {
   const getFavouriteRecipesRequest =
-    async (): Promise<FavouriteRecipeListType> => {
+    async (): Promise<RecipeListType> => {
       const isAuthenticate = checkIsTokenValid();
 
       if (!isAuthenticate) {

@@ -72,7 +72,12 @@ const HomePage = () => {
             {isFavouritesLoading ? (
               <div>Loading...</div>
             ) : (
-              <p>Fav</p>
+              favourites &&  (
+                <RecipeList
+                  onClickRecipe={openFullRecipe}
+                  recipes={favourites}
+                />
+              )
             )}
           </TabsContent>
         </div>

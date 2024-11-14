@@ -9,7 +9,7 @@ const RecipeList = ({ recipes, onClickRecipe, category }: RecipeListPropType) =>
                 < RecipeCard
                     key={recipe.idMeal}
                     title={recipe.strMeal}
-                    category={category}
+                    category={category || recipe.strCategory || ""}
                     image={recipe.strMealThumb}
                     id={recipe.idMeal}
                     onClickRecipe={onClickRecipe} />
