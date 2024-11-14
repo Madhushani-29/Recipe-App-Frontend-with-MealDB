@@ -195,3 +195,53 @@ export const useAddToFavourites = () => {
 
   return { addToFavourites, isLoading, isSuccess, error };
 };
+
+export const useRemoveFromFavourites = () => {
+  const queryClient = useQueryClient();
+  const removeFromFavouritesRequest = async (recipeId: string) => {
+    const isAuthenticate = checkIsTokenValid();
+
+    if (!isAuthenticate) {
+      throw new Error("Session timed out or token invalid. Login first!");
+    }
+
+    const token = Cookies.get("accessToken");
+
+    const response = await fetch(
+      `${VITE_API_BASE_URL}/api/recipes/favourites/remove`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ recipeId }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to remove from favourites!");
+    }
+
+    return response.json();
+  };
+
+  const {
+    mutateAsync: removeFromFavourites,
+    isLoading,
+    isSuccess,
+    error,
+    reset,
+  } = useMutation(removeFromFavouritesRequest, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("fetchFavouriteRecipes");
+      toast.success("Recipe removed from favourites!");
+    },
+    onError: () => {
+      toast.error("Failed to remove from favourites!");
+      reset();
+    },
+  });
+
+  return { removeFromFavourites, isLoading, isSuccess, error };
+};

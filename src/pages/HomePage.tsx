@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import RecipeList from "@/components/RecipeList";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
-import { useAddToFavourites, useGetFavouriteRecipes, useGetRecipesByCategory } from "@/api/RecipeApi";
+import { useAddToFavourites, useGetFavouriteRecipes, useGetRecipesByCategory, useRemoveFromFavourites } from "@/api/RecipeApi";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ const HomePage = () => {
   const { isLoading: isRecipesLoading, recipes } = useGetRecipesByCategory(currentCategory || "Beef");
   const { isLoading: isFavouritesLoading, favourites } = useGetFavouriteRecipes();
   const { addToFavourites } = useAddToFavourites();
+  const { removeFromFavourites } = useRemoveFromFavourites();
 
   // only run when loading
   useEffect(() => {
@@ -30,10 +31,6 @@ const HomePage = () => {
 
   const openFullRecipe = (id: string) => {
     navigate(`./recipe/${id}`);
-  }
-
-  const onRemoveFromFavourite = (id: string) => {
-    console.log("Remove recipe from favourites: ", id);
   }
 
   return (
@@ -84,7 +81,7 @@ const HomePage = () => {
                   onClickRecipe={openFullRecipe}
                   recipes={favourites}
                   isFavourite={true}
-                  onClickAddOrRemove={onRemoveFromFavourite}
+                  onClickAddOrRemove={removeFromFavourites}
                 />
               )
             )}
