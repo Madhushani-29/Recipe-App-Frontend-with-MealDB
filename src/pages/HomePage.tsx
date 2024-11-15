@@ -31,6 +31,15 @@ const HomePage = () => {
     navigate(`./recipe/${id}`);
   }
 
+  const onAddToFavourite = (id: string) => {
+    console.log("Add recipe to favourites: ", id);
+
+  }
+
+  const onRemoveFromFavourite = (id: string) => {
+    console.log("Remove recipe from favourites: ", id);
+  }
+
   return (
     <div className="bg-primary-100 h-screen">
       <Tabs defaultValue="home">
@@ -63,6 +72,8 @@ const HomePage = () => {
                   onClickRecipe={openFullRecipe}
                   recipes={recipes}
                   category={currentCategory}
+                  isFavourite={false}
+                  onClickAddOrRemove={onAddToFavourite}
                 />
               )
             )}
@@ -72,10 +83,12 @@ const HomePage = () => {
             {isFavouritesLoading ? (
               <div>Loading...</div>
             ) : (
-              favourites &&  (
+              favourites && (
                 <RecipeList
                   onClickRecipe={openFullRecipe}
                   recipes={favourites}
+                  isFavourite={true}
+                  onClickAddOrRemove={onRemoveFromFavourite}
                 />
               )
             )}

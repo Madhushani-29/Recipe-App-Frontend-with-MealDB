@@ -2,7 +2,7 @@ import { RecipeType } from "@/types/RecipeTypes"
 import RecipeCard from "./RecipeCard"
 import { RecipeListPropType } from "@/types/ComponentPropTypes"
 
-const RecipeList = ({ recipes, onClickRecipe, category }: RecipeListPropType) => {
+const RecipeList = ({ recipes, onClickRecipe, category, isFavourite, onClickAddOrRemove }: RecipeListPropType) => {
     return (
         <div className="flex flex-row flex-wrap gap-10">
             {recipes.map((recipe: RecipeType) => (
@@ -12,7 +12,9 @@ const RecipeList = ({ recipes, onClickRecipe, category }: RecipeListPropType) =>
                     category={category || recipe.strCategory || ""}
                     image={recipe.strMealThumb}
                     id={recipe.idMeal}
-                    onClickRecipe={onClickRecipe} />
+                    isFavourite={isFavourite}
+                    onClickRecipe={onClickRecipe}
+                    onClickAddOrRemove={onClickAddOrRemove} />
             ))}
         </div>
     )
