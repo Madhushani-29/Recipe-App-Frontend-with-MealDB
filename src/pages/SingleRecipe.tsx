@@ -3,17 +3,12 @@ import Header from "@/components/Header";
 import InstructionsList from "@/components/InstructionsList";
 import { RecipeDataType } from "@/types/RecipeTypes";
 import { Cookie, CupSoda, MapPin, ShoppingBasket, Tags, Youtube } from "lucide-react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const SingleRecipe = () => {
     const { id } = useParams();
     const { isLoading, recipe }: { isLoading: boolean, recipe: RecipeDataType | null } = useGetSingleRecipe(id || "");
-
-    useEffect(() => {
-        console.log("recipes are: ", recipe);
-    }, [recipe]);
 
     const ingredientsList = [];
     for (let i = 1; i <= 20; i++) {

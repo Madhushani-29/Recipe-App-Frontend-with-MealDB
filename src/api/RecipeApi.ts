@@ -5,7 +5,7 @@ import {
   RecipeListType,
 } from "@/types/RecipeTypes";
 import Cookies from "js-cookie";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "sonner";
 
 const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -98,35 +98,34 @@ export const useGetSingleRecipe = (id: string) => {
 };
 
 export const useGetFavouriteRecipes = () => {
-  const getFavouriteRecipesRequest =
-    async (): Promise<RecipeListType> => {
-      const isAuthenticate = checkIsTokenValid();
+  const getFavouriteRecipesRequest = async (): Promise<RecipeListType> => {
+    const isAuthenticate = checkIsTokenValid();
 
-      if (!isAuthenticate) {
-        throw new Error("Session timed out or token invalid. Login first!");
+    if (!isAuthenticate) {
+      throw new Error("Session timed out or token invalid. Login first!");
+    }
+
+    const token = Cookies.get("accessToken");
+
+    const response = await fetch(
+      `${VITE_API_BASE_URL}/api/recipes/favourites`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       }
+    );
 
-      const token = Cookies.get("accessToken");
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage || "Failed to fetch favourites");
+    }
 
-      const response = await fetch(
-        `${VITE_API_BASE_URL}/api/recipes/favourites`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorMessage = await response.text(); 
-        throw new Error(errorMessage || "Failed to fetch favourites");
-      }
-
-      const data = await response.json();
-      return data.favourites;
-    };
+    const data = await response.json();
+    return data.favourites;
+  };
 
   const {
     data: favourites,
@@ -139,4 +138,60 @@ export const useGetFavouriteRecipes = () => {
   }
 
   return { favourites, isLoading };
+};
+
+export const useAddToFavourites = () => {
+  // initialize queryClient
+  // hook gives you access to the query client, which allows you to access cache and trigger refetching or invalidating queries
+  const queryClient = useQueryClient();
+  const addToFavouritesRequest = async (recipeId: string) => {
+    const isAuthenticate = checkIsTokenValid();
+
+    if (!isAuthenticate) {
+      throw new Error("Session timed out or token invalid. Login first!");
+    }
+
+    const token = Cookies.get("accessToken");
+
+    const response = await fetch(
+      `${VITE_API_BASE_URL}/api/recipes/favourites/add`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ recipeId }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to add to favourites!");
+    }
+
+    return response.json();
+  };
+
+  const {
+    mutateAsync: addToFavourites,
+    isLoading,
+    isSuccess,
+    error,
+    reset,
+  } = useMutation(addToFavouritesRequest, {
+    // once the mutation is successful, trigger a refetch of the useGetFavouriteRecipes query
+    // which will give you the updated list of favourite recipes
+    // invalidateQueries method marks the query with the key "fetchFavouriteRecipes" as stale
+    // React Query will refetch the data the next time this query is accessed
+    onSuccess: () => {
+      queryClient.invalidateQueries("fetchFavouriteRecipes");
+      toast.success("Recipe added to favourites!");
+    },
+    onError: () => {
+      toast.error("Failed to add to favourites!");
+      reset();
+    },
+  });
+
+  return { addToFavourites, isLoading, isSuccess, error };
 };
